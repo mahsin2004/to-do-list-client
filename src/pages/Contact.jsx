@@ -1,8 +1,11 @@
 import { MdLocationPin, MdOutlineEmail, MdAddIcCall } from "react-icons/md";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Swal from "sweetalert2";
 
 const Contact = () => {
+  useEffect(() => {
+    document.title = 'Contact | Task Management'
+  },[])
   const form = useRef();
   const sendEmail = (e) => {
     e.preventDefault();

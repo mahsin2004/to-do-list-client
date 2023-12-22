@@ -1,10 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Social from "./Social";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../authProvider/AuthProvider";
 
 const Register = () => {
+  useEffect(() => {
+    document.title = 'Register | Task Management'
+  },[])
   const {createUser, profileUpdate}= useContext(AuthContext);
   const navigate = useNavigate();
   const handleSubmit = (e) => {

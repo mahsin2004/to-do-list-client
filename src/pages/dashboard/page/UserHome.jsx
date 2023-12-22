@@ -1,20 +1,38 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import useAxiosPublic from "../../../hook/useAxiosPublic";
 import ToDo from "./shear/toDo";
 
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../../../authProvider/AuthProvider";
+import ToDo1 from "./shear/ToDo1";
+import ToDo2 from "./shear/ToDo2";
 
 const UserHome = () => {
   const axiosPublic = useAxiosPublic();
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const [onGoingTasks, setOnGoingTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
   const { data: tasks = [], refetch } = useQuery({
     queryKey: ["allTasks"],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/tasks/${user?.email}`)
+      const res = await axiosPublic.get(`/tasks/${user?.email}`);
       return res.data;
     },
   });
+
+  useEffect(() => {
+    axiosPublic.get(`/onGoings`).then((res) => {
+      setOnGoingTasks(res.data);
+      console.log(res);
+    });
+  }, [axiosPublic]);
+
+  useEffect(() => {
+    axiosPublic.get(`/completes`).then((res) => {
+      setCompletedTasks(res.data);
+      console.log(res);
+    });
+  }, [axiosPublic]);
 
   return (
     <div className="text-gray-700">
@@ -39,7 +57,11 @@ const UserHome = () => {
           <h1 className="text-2xl font-medium py-4 text-white bg-[#B68C5A] rounded-2xl text-center mb-4">
             Ongoing
           </h1>
-          <div className="flex flex-col gap-2"></div>
+          <div className="flex flex-col gap-2">
+            {onGoingTasks.map((task) => (
+              <ToDo1 key={task._id} task={task}></ToDo1>
+            ))}
+          </div>
         </div>
 
         {/* part 3 */}
@@ -47,7 +69,11 @@ const UserHome = () => {
           <h1 className="text-2xl font-medium py-4 text-white bg-[#B68C5A] rounded-2xl text-center mb-4">
             completed
           </h1>
-          <div className="flex flex-col  gap-2"></div>
+          <div className="flex flex-col  gap-2">
+            {completedTasks.map((task) => (
+              <ToDo2 key={task._id} task={task}></ToDo2>
+            ))}
+          </div>
         </div>
       </div>
     </div>

@@ -1,7 +1,10 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../../../authProvider/AuthProvider";
 
 const Profile = () => {
+  useEffect(() => {
+    document.title = 'Profile | Task Management'
+  },[])
   const { user } = useContext(AuthContext);
 
   return (
