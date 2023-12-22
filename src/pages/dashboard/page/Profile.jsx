@@ -30,9 +30,7 @@ const Profile = () => {
           </div>
           <div className="form-control mb-3">
             <label className="label">
-              <span className="label-text text-[#495057] ">
-                Your Email
-              </span>
+              <span className="label-text text-[#495057] ">Your Email</span>
             </label>
             <input
               type="text"

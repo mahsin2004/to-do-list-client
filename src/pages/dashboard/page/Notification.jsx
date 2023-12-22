@@ -1,10 +1,9 @@
-
 const Notification = () => {
-    return (
-        <div>
-            <h1>This is notification</h1>
-        </div>
-    );
+  return (
+    <div>
+      <h1>This is notification</h1>
+    </div>
+  );
 };
 
 export default Notification;

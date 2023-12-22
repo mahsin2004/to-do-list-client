@@ -1,25 +1,42 @@
-import { useRef } from "react";
+
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../../hook/useAxiosPublic";
 
 const AddTask = () => {
-  const form = useRef();
+  const axiosPublic = useAxiosPublic(); 
+
   const sendEmail = (e) => {
     e.preventDefault();
     const form = e.target;
-    const name = form.name.value;
-    const email = form.email.value;
-    console.log(name, email);
-    form.current.reset();
-    Swal.fire({
-      icon: "success",
-      title: "Message Sent!",
-      text: "Thank you for reaching out.",
+    const title = form.title.value;
+    const description = form.description.value;
+    const deadline = form.deadline.value;
+    const priority = form.priority.value;
+    
+    const tasks = {
+      title, 
+      priority, 
+      description, 
+      deadline
+    }
+    console.log(tasks);
+    axiosPublic.post("/tasks", tasks).then((res) => {
+      console.log(res.data);
+      if (res.data.acknowledged) {
+        Swal.fire({
+          title: "Successfully",
+          text: "New Task Added",
+          icon: "success",
+          confirmButtonText: "oky",
+        });
+        form.reset();
+      }
     });
   };
   return (
     <div>
       <div>
-        <form ref={form} onSubmit={sendEmail} className=" bg-white mx-auto">
+        <form onSubmit={sendEmail} className=" bg-white mx-auto">
           <div className="form-control mb-3">
             <label className="label">
               <span className="label-text text-[#495057]">Enter Title</span>
@@ -63,7 +80,7 @@ const AddTask = () => {
               <span className="label-text text-lg">Select Priority</span>
             </label>
             <select
-              name="category"
+              name="priority"
               placeholder="select type"
               className="input input-bordered"
               required
