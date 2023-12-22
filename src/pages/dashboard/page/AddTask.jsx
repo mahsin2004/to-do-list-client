@@ -1,9 +1,13 @@
 
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../../hook/useAxiosPublic";
+import { useContext } from "react";
+import { AuthContext } from "../../../authProvider/AuthProvider";
 
 const AddTask = () => {
   const axiosPublic = useAxiosPublic(); 
+  const {user} = useContext(AuthContext);
+  const email = user?.email
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -17,7 +21,8 @@ const AddTask = () => {
       title, 
       priority, 
       description, 
-      deadline
+      deadline,
+      email
     }
     console.log(tasks);
     axiosPublic.post("/tasks", tasks).then((res) => {
