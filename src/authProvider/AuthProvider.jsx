@@ -13,22 +13,42 @@ import { auth } from "../config/firebase.config";
 
 
 export const AuthContext = createContext(null);
+const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [lerror, setLerror] = useState(null);
+  const [rerror, setRerror] = useState(null);
 
-  const logIn = (email, password) => {
+  useEffect(() => {
+    const unsubScribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => {
+      unsubScribe();
+    };
+  }, []);
+
+  const googleUser = () => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    return signInWithPopup(auth, googleProvider);
   };
-  const logOut = () => {
-    setLoading(true);
-    return signOut(auth);
-  };
+
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const userLogin = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
   };
 
   const profileUpdate = (name, photo) => {
@@ -38,38 +58,28 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  const provider = new GoogleAuthProvider();
-  const logInWithGoogle = () => {
-    setLoading(true);
-    return signInWithPopup(auth, provider);
-  };
-  useEffect(() => {
-    const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => {
-      unSubscribe();
-    };
-  }, []);
-  const context = {
-    user,
-    loading,
-    setLoading,
-    logIn,
-    logOut,
+  const Authentication = {
+    googleUser,
     createUser,
-    logInWithGoogle,
-    profileUpdate
+    userLogin,
+    logOut,
+    profileUpdate,
+    loading,
+    lerror,
+    setLerror,
+    rerror,
+    setRerror,
+    user,
   };
   return (
-    <AuthContext.Provider value={context}>
-        {children}
+    <AuthContext.Provider value={Authentication}>
+      {children}
     </AuthContext.Provider>
   );
 };
+
 AuthProvider.propTypes = {
   children: PropTypes.object,
 };
-export default AuthProvider;
 
+export default AuthProvider;

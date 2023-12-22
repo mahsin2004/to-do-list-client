@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../authProvider/AuthProvider";
-import { useContext } from "react";
 
-const Navbar = () => {
+import { useContext } from "react";
+import { AuthContext } from "../../authProvider/AuthProvider";
+
+const Nav = () => {
   const { user, logOut } = useContext(AuthContext);
 
   const handleLogOut = () => {
@@ -10,6 +11,7 @@ const Navbar = () => {
       .then((res) => console.log(res))
       .catch((error) => console.error(error));
   };
+
   const Links = (
     <>
       <NavLink
@@ -26,24 +28,6 @@ const Navbar = () => {
           Home
         </li>
       </NavLink>
-      {user ? (
-        <NavLink
-          to="dashboard"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-[#B68C5A] border-b-[2px] rounded-full"
-              : ""
-          }
-        >
-          <li className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold ">
-            Dashboard
-          </li>
-        </NavLink>
-      ) : (
-        ""
-      )}
       <NavLink
         to="/features"
         className={({ isActive, isPending }) =>
@@ -58,22 +42,10 @@ const Navbar = () => {
           Features
         </li>
       </NavLink>
-      <NavLink
-        to="/contact"
-        className={({ isActive, isPending }) =>
-          isPending
-            ? "pending"
-            : isActive
-            ? "text-[#B68C5A] border-b-[2px] rounded-full"
-            : ""
-        }
-      >
-        <li className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold ">
-          Contact Us
-        </li>
-      </NavLink>
+     
     </>
   );
+    
   return (
     <div className="sticky top-0 z-10  navbar bg-base-100 border-b-2">
       <div className="navbar-start">
@@ -102,9 +74,6 @@ const Navbar = () => {
           </ul>
         </div>
         <h1 className="text-3xl font-bold text-[#B68C5A]">To Do List</h1>
-      </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 text-[#495057]">{Links}</ul>
       </div>
       <div className="navbar-end">
         {user ? (
@@ -138,4 +107,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Nav;

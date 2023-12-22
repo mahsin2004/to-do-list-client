@@ -1,21 +1,23 @@
 
-import { Link } from "react-router-dom";
-import useAuth from "../hook/useAuth";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Social from "./Social";
+import { useContext } from "react";
+import { AuthContext } from "../authProvider/AuthProvider";
 const Login = () => {
-  const {logIn} = useAuth();
+  const {userLogin} = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    logIn(email, password)
+    userLogin(email, password)
     .then((res) => {
       const user = res.user;
       console.log(user.email);
       toast.success("login successfully");
-      // navigate(location?.state ? location.state : "/");
+      navigate(location?.state ? location.state : "/");
     })
     .catch((error) => {
       toast.error(error.code);

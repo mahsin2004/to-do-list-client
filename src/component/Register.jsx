@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import useAuth from "../hook/useAuth";
 import toast from "react-hot-toast";
 import Social from "./Social";
+import { useContext } from "react";
+import { AuthContext } from "../authProvider/AuthProvider";
 
 const Register = () => {
-  const {createUser, profileUpdate}= useAuth();
+  const {createUser, profileUpdate}= useContext(AuthContext);
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
