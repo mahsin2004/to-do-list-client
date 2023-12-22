@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Social from "./Social";
 import { useContext } from "react";
@@ -6,6 +6,7 @@ import { AuthContext } from "../authProvider/AuthProvider";
 
 const Register = () => {
   const {createUser, profileUpdate}= useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -13,12 +14,30 @@ const Register = () => {
     const email = form.email.value;
     const photo = form.photo.value;
     const password = form.password.value;
+
+
+    if (password.length < 6) {
+      toast.error("Password should be 6 characters or more");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password should have at least one capital letter");
+      return;
+    }
+
+    if (!/[!@#$%^&*()_+{}[\]:;<>,/.?~\\]/.test(password)) {
+      toast.error("Password should have at least one special character");
+      return;
+    }
+
     createUser(email, password)
       .then(() => {
         profileUpdate(name, photo).then(() => {
           window.location.reload();
         });
         toast.success("user create successfully");
+        navigate("/");
       })
       .catch((error) => {
         toast.error(error.code);
@@ -88,7 +107,7 @@ const Register = () => {
             </div>
             <div className="form-control mt-6">
               <button className="btn bg-[#B68C5A]  text-white hover:bg-white hover:border border-[#B68C5A] hover:border-[#B68C5A] hover:text-black">
-                Sign Up
+                Register
               </button>
             </div>
             <div className="space-y-4 mt-3">
@@ -97,7 +116,7 @@ const Register = () => {
               <h1 className="text-center">
                 Already Have an account?
                 <Link to="/login" className="text-[#B68C5A]">
-                  Sign in
+                  Log In
                 </Link>
               </h1>
             </div>

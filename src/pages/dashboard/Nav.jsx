@@ -15,7 +15,7 @@ const Nav = () => {
   const Links = (
     <>
       <NavLink
-        to="/"
+        to="/dashboard/userHome"
         className={({ isActive, isPending }) =>
           isPending
             ? "pending"
@@ -25,11 +25,11 @@ const Nav = () => {
         }
       >
         <li className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold">
-          Home
+          UserHome
         </li>
       </NavLink>
       <NavLink
-        to="/features"
+        to="/dashboard/addTask"
         className={({ isActive, isPending }) =>
           isPending
             ? "pending"
@@ -39,15 +39,44 @@ const Nav = () => {
         }
       >
         <li className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold ">
-          Features
+          AddTask
         </li>
       </NavLink>
-     
+      <NavLink
+        to="/dashboard/profile"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? "pending"
+            : isActive
+            ? "text-[#B68C5A] border-b-[2px] rounded-full"
+            : ""
+        }
+      >
+        <li className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold ">
+          Profile
+        </li>
+      </NavLink>
+
+      <div className="divider"></div>
+      <NavLink
+        to="/"
+        className={({ isActive, isPending }) =>
+          isPending
+            ? "pending"
+            : isActive
+            ? "text-[#B68C5A] border-b-[2px] rounded-full"
+            : ""
+        }
+      >
+        <li className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold list-none">
+          Home
+        </li>
+      </NavLink>
     </>
   );
-    
+
   return (
-    <div className="sticky top-0 z-10  navbar bg-base-100 border-b-2">
+    <div className="sticky top-0 z-10 navbar bg-base-100 border-b">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -73,7 +102,9 @@ const Nav = () => {
             {Links}
           </ul>
         </div>
-        <h1 className="text-3xl font-bold text-[#B68C5A]">To Do List</h1>
+        <h1 className="text-3xl font-bold text-[#B68C5A] hidden lg:block">
+          Task Management
+        </h1>
       </div>
       <div className="navbar-end">
         {user ? (
@@ -99,7 +130,12 @@ const Nav = () => {
           </>
         ) : (
           <>
-            <NavLink className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold text-[#495057]" to="login">Log In</NavLink>
+            <NavLink
+              className="py-2 px-4 hover:text-[#B68C5A] hover:rounded-full font-bold text-[#495057]"
+              to="login"
+            >
+              Log In
+            </NavLink>
           </>
         )}
       </div>

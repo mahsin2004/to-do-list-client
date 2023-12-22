@@ -26,9 +26,9 @@ const Navbar = () => {
           Home
         </li>
       </NavLink>
-      {user ? (
+      {user && (
         <NavLink
-          to="dashboard"
+          to="/dashboard/userHome"
           className={({ isActive, isPending }) =>
             isPending
               ? "pending"
@@ -41,8 +41,6 @@ const Navbar = () => {
             Dashboard
           </li>
         </NavLink>
-      ) : (
-        ""
       )}
       <NavLink
         to="/features"
@@ -101,7 +99,7 @@ const Navbar = () => {
             {Links}
           </ul>
         </div>
-        <h1 className="text-3xl font-bold text-[#B68C5A]">To Do List</h1>
+        <h1 className="text-2xl font-bold text-[#B68C5A]">Task Management</h1>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 text-[#495057]">{Links}</ul>

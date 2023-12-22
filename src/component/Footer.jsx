@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="p-10 bg-neutral text-white">
         <div className="max-w-[1200px] mx-auto lg:flex justify-around">
           <nav>
-            <header className="footer-title text-2xl">To Do List</header>
+            <header className="footer-title text-2xl">Task Management</header>
             <header className="footer-title">Nav Links</header>
             <div className="flex gap-2">
               <li className="link link-hover list-none">
